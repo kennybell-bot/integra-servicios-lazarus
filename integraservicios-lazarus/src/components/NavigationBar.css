@@ -1,0 +1,38 @@
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background-color: #000000;
+    height: 80px;
+}
+
+.actions { 
+    display: flex; 
+    gap: 0.5rem; 
+    height: 70px;
+    align-items: center;
+}
+
+button{
+    background-color: #B5944C;
+    height: 40px;
+    padding: 5px;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* efecto "iluminación" al pasar el mouse / foco */
+.barra button:hover,
+.barra button:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(100, 108, 255, 0.28); /* color de glow */
+    filter: brightness(1.08);
+    border-color: rgba(100, 108, 255, 0.45);
+    outline: none;
+}
+
+.logotipo { height: 80px; }

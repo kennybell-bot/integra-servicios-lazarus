@@ -1,0 +1,27 @@
+.homeContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.logotipoHome {
+    height: 250px;
+}
+
+.galeria {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.galeria>img {
+    width: 300px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #B5944C;
+}
