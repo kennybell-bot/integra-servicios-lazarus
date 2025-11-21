@@ -7,10 +7,10 @@ import Salon from '../assets/images/homeSalon.jpeg';
 import Cancha from '../assets/images/homeCancha.jpeg';
 import Auditorio from '../assets/images/homeAuditorio.jpeg';
 
-const Home = () => {
+const Home = ({ onRegisterClick }) => {
     return ( 
         <main>
-            <NavigationBar />
+            {/*<NavigationBar onRegisterClick={onRegisterClick} />*/}
             <div className="homeContent">
                 <img src={Logo} alt="Logo" className='logotipoHome'/>
                 <h1>Gestiona los recursos universitarios de forma simple y eficiente</h1>
