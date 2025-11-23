@@ -1,4 +1,10 @@
+.registerFormView{
+    padding: 20px;
+    margin: 0;
+}
+
 .registerForm{
+    border: 2px solid #B5944C;
     width: 600px;
     display: flex;
     flex-direction: column;

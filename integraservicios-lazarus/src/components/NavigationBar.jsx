@@ -2,7 +2,7 @@ import React from 'react';
 import './NavigationBar.css';
 import Logo from '../assets/logo.png';
 
-const NavigationBar = ({ onRegisterClick, onLogoClick }) => {
+const NavigationBar = ({ onRegisterClick, onLogoClick, onSignInClick }) => {
     return (
         <nav className="barra">
             <img
@@ -16,7 +16,7 @@ const NavigationBar = ({ onRegisterClick, onLogoClick }) => {
                 style={{ cursor: 'pointer' }}
             />
             <div className="actions">
-                <button>Iniciar Sesión</button>
+                <button onClick={onSignInClick}>Iniciar Sesión</button>
                 <button onClick={onRegisterClick}>Registrarse</button>
             </div>
         </nav>

@@ -1,0 +1,22 @@
+.signInFormView{
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signInForm{
+    border: 2px solid #B5944C;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #000000;
+    padding: 10px 10px 30px 10px;
+    border-radius: 10px;
+    color: white;    
+}
