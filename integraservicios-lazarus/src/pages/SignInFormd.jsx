@@ -2,10 +2,16 @@ import React from 'react';
 import Logo from '../assets/logo.png';
 import './SignInForm.css';
 
-const SignInFormd = () => {
+const SignInFormd = ({ onSignInSuccess }) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Aquí podrías validar credenciales antes de llamar al callback
+        if (onSignInSuccess) onSignInSuccess();
+    };
+
     return (
         <div className="signInFormView">
-            <form className="signInForm">
+            <form className="signInForm" onSubmit={handleSubmit}>
                 <img src={Logo} alt="Logo" className="logotipoForm"/>
                 <h1>Sistema de Gestión de Recursos</h1>
                 <p>Plataforma de Reservas</p>
@@ -16,7 +22,7 @@ const SignInFormd = () => {
                 <label  htmlFor="password">Contraseña</label>
                 <input id="password" name="password" type="password" placeholder="********" />
 
-                <button className="registerButton">Iniciar Sesión</button>
+                <button type="submit" className="registerButton">Iniciar Sesión</button>
             </form>
         </div>
     );
