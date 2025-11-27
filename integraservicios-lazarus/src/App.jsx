@@ -7,6 +7,7 @@ import RegisterForm from './pages/RegisterForm.jsx'
 import NavigationBar from './components/NavigationBar.jsx'
 import SignInFormd from './pages/SignInFormd.jsx'
 import SignedInNavigationBar from './components/singedInNavigationBar.jsx'
+import AdminOptionsBar from './components/adminOptionsBar.jsx'
 
 
 
@@ -36,21 +37,34 @@ function App() {
     setShowSignIn(false)
   }
 
+  const handleSignOut = () => {
+    // Return to public view
+    setIsSignedIn(false)
+    setShowRegister(false)
+    setShowSignIn(false)
+  }
+
   return (
     <div>
       {isSignedIn ? (
-        <SignedInNavigationBar />
+        /* Cuando el usuario está autenticado, mostrar solo la barra y las opciones de admin */
+        <>
+          <SignedInNavigationBar onSignOut={handleSignOut} />
+          <AdminOptionsBar />
+        </>
       ) : (
-        <NavigationBar onRegisterClick={handleRegisterClick} onLogoClick={handleLogoClick} onSignInClick={handleSignInClick} />
+        /* Vista pública: NavigationBar + contenido (SignIn / Register / Home) */
+        <>
+          <NavigationBar onRegisterClick={handleRegisterClick} onLogoClick={handleLogoClick} onSignInClick={handleSignInClick} />
+          {showSignIn ? (
+            <SignInFormd onSignInSuccess={handleSignInSuccess} />
+          ) : showRegister ? (
+            <RegisterForm />
+          ) : (
+            <Home />
+          )}
+        </>
       )}
-      {showSignIn ? (
-        <SignInFormd onSignInSuccess={handleSignInSuccess} />
-      ) : showRegister ? (
-        <RegisterForm />
-      ) : (
-        <Home />
-      )}
-
     </div>
   )
 }

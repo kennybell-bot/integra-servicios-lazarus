@@ -1,0 +1,61 @@
+/* Admin options bar: pills with subtle background and an active/selected pill */
+.adminOptionsBarContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.adminOptionsBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000000; /* light gray container */
+  padding: 6px;
+  border-radius: 9999px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  width: 1200px;
+}
+
+.adminOptionsBar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 300px;
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.adminOptionsBar button:hover {
+  transform: translateY(-2px);
+}
+
+.adminOptionsBar button.active,
+.adminOptionsBar button:focus,
+.adminOptionsBar button:focus-visible {
+  background: #b5944c; /* white active pill */
+  box-shadow: 0 8px 24px rgba(2,6,23,0.08);
+  outline: none;
+}
+
+.adminOptionsBar button img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Responsive: allow wrapping on very small screens */
+@media (max-width: 420px) {
+  .adminOptionsBar {
+    gap: 6px;
+    padding: 6px;
+  }
+  .adminOptionsBar button { padding: 8px 10px; font-size: 13px; }
+}
