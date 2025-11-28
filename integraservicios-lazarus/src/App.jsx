@@ -8,6 +8,7 @@ import NavigationBar from './components/NavigationBar.jsx'
 import SignInFormd from './pages/SignInFormd.jsx'
 import SignedInNavigationBar from './components/singedInNavigationBar.jsx'
 import AdminOptionsBar from './components/adminOptionsBar.jsx'
+import Dashboard from './pages/Dashboard.jsx'
 
 
 
@@ -51,6 +52,7 @@ function App() {
         <>
           <SignedInNavigationBar onSignOut={handleSignOut} />
           <AdminOptionsBar />
+          <Dashboard />
         </>
       ) : (
         /* Vista pública: NavigationBar + contenido (SignIn / Register / Home) */
