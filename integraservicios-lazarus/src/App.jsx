@@ -9,6 +9,7 @@ import SignInFormd from './pages/SignInFormd.jsx'
 import SignedInNavigationBar from './components/singedInNavigationBar.jsx'
 import AdminOptionsBar from './components/adminOptionsBar.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Resources from './pages/Resources.jsx'
 
 
 
@@ -45,14 +46,22 @@ function App() {
     setShowSignIn(false)
   }
 
+  const [adminView, setAdminView] = useState('dashboard')
+
+  const handleAdminSelect = (view) => {
+    setAdminView(view)
+  }
+
   return (
     <div>
       {isSignedIn ? (
         /* Cuando el usuario está autenticado, mostrar solo la barra y las opciones de admin */
         <>
           <SignedInNavigationBar onSignOut={handleSignOut} />
-          <AdminOptionsBar />
-          <Dashboard />
+          <AdminOptionsBar onSelect={handleAdminSelect} active={adminView} />
+          {adminView === 'dashboard' && <Dashboard />}
+          {adminView === 'resources' && <Resources />}
+          {/* other views (bookings/ratings) can be added similarly */}
         </>
       ) : (
         /* Vista pública: NavigationBar + contenido (SignIn / Register / Home) */

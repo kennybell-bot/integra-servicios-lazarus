@@ -1,0 +1,11 @@
+.resourcesHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin: 30px;
+}
+
+.resourcesList{
+    margin:30px;
+}
