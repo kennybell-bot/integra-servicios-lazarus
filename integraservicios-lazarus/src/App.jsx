@@ -10,6 +10,8 @@ import SignedInNavigationBar from './components/singedInNavigationBar.jsx'
 import AdminOptionsBar from './components/adminOptionsBar.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Resources from './pages/Resources.jsx'
+import ReservationsAdmin from './pages/ReservationsAdmin.jsx'
+import Ratings from './pages/Ratings.jsx'
 
 
 
@@ -61,7 +63,9 @@ function App() {
           <AdminOptionsBar onSelect={handleAdminSelect} active={adminView} />
           {adminView === 'dashboard' && <Dashboard />}
           {adminView === 'resources' && <Resources />}
-          {/* other views (bookings/ratings) can be added similarly */}
+          {adminView === 'bookings' && <ReservationsAdmin />}
+          {adminView === 'ratings' && <Ratings />}
+          {/* other views (ratings) can be added similarly */}
         </>
       ) : (
         /* Vista pública: NavigationBar + contenido (SignIn / Register / Home) */

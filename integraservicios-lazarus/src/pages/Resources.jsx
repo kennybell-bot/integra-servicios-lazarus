@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewResource from './NewResource.jsx'
 import './Resource.css'
 import ResourceItem from '../components/ResourceItem'
@@ -8,6 +8,16 @@ const Resources = () => {
     const [showNew, setShowNew] = useState(false)
     const [items, setItems] = useState([])
     const [editing, setEditing] = useState(null)
+
+    useEffect(() => {
+        fetch('http://localhost:8081/api/resources')
+            .then(res => res.json())
+            .then(data => {
+                console.log('Finos')
+                setItems(data)
+            })
+            .catch(err => console.error('Error fetching resources:', err))
+    }, [])
 
     const handleOpen = () => {
         setEditing(null)
@@ -23,7 +33,18 @@ const Resources = () => {
     }
 
     const handleDelete = (id) => {
-        setItems(prev => prev.filter(i => i.id !== id))
+        fetch(`http://localhost:8081/api/resources/${id}`, {
+            method: 'DELETE'
+        })
+            .then(res => {
+                if (res.ok) {
+                    console.log('Recurso eliminado exitosamente')
+                    setItems(prev => prev.filter(i => i.id !== id))
+                } else {
+                    console.error('Error al eliminar recurso')
+                }
+            })
+            .catch(err => console.error('Error en la petición DELETE:', err))
     }
 
     const handleEdit = (id) => {
@@ -57,18 +78,30 @@ const Resources = () => {
                     <p>No hay recursos aún.</p>
                 ) : (
                     <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:16}}>
-                        {items.map((it) => (
-                            <ResourceItem
-                                key={it.id}
-                                title={it.name}
-                                tag={it.type}
-                                status={it.available ? 'Disponible' : 'No disponible'}
-                                description={it.description}
-                                capacity={it.capacity ? `${it.capacity} personas` : ''}
-                                onEdit={() => handleEdit(it.id)}
-                                onDelete={() => handleDelete(it.id)}
-                            />
-                        ))}
+                        {items.map((it) => {
+                            // Convert attributesJson to natural language description
+                            const descriptionText = it.attributesJson 
+                                ? Object.entries(it.attributesJson)
+                                    .map(([key, value]) => `${key}: ${value}`)
+                                    .join(', ')
+                                : ''
+                            
+                            // Extract capacity from attributesJson
+                            const capacityValue = it.attributesJson?.capacidad || ''
+
+                            return (
+                                <ResourceItem
+                                    key={it.id}
+                                    title={it.name}
+                                    tag={it.code}
+                                    status={it.active ? 'Disponible' : 'No disponible'}
+                                    description={descriptionText}
+                                    capacity={capacityValue ? `${capacityValue} personas` : ''}
+                                    onEdit={() => handleEdit(it.id)}
+                                    onDelete={() => handleDelete(it.id)}
+                                />
+                            )
+                        })}
                     </div>
                 )}
             </div>
@@ -87,6 +120,7 @@ const Resources = () => {
                     initialData={editing}
                 />
             )}
+
         </div>
     );
 };

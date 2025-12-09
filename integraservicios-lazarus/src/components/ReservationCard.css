@@ -1,0 +1,143 @@
+.reservation-card {
+  background: #000000;
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #ffffff;
+}
+
+.reservation-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.reservation-card-title-section {
+  flex: 1;
+}
+
+.reservation-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.reservation-card-user {
+  font-size: 14px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.reservation-card-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-active {
+  background: #0f2a13;
+  color: #fff;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.reservation-card-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  color: #ffffff;
+}
+
+.reservation-date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reservation-date-label {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.reservation-date-value {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.reservation-card-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+.btn-mark-complete {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  background-color: #b5944c;
+  color: #111827;
+  transition: background 0.2s ease ;
+}
+
+.btn-mark-complete:hover {
+  background: #c0a15f;
+}
+
+.btn-mark-complete:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 24, 40, 0.1);
+}
+
+.btn-mark-complete svg {
+  color: #000000;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .reservation-card {
+    padding: 18px;
+  }
+
+  .reservation-card-title {
+    font-size: 18px;
+  }
+
+  .reservation-card-dates {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .btn-mark-complete {
+    font-size: 13px;
+  }
+}

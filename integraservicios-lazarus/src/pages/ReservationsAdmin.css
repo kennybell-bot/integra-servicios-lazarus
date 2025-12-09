@@ -1,0 +1,60 @@
+.reservations-admin {
+  padding: 20px;
+  background: #fff;
+  min-height: 100vh;
+  margin : 20px;
+}
+
+.reservations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.reservations-title-section {
+  flex: 1;
+}
+
+.reservations-title-section h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.reservations-title-section p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.reservations-filter-section {
+  min-width: 160px;
+}
+
+.reservations-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .reservations-admin {
+    padding: 16px;
+  }
+
+  .reservations-header {
+    flex-direction: column;
+  }
+
+  .reservations-title-section h1 {
+    font-size: 24px;
+  }
+
+  .reservations-filter-section {
+    width: 100%;
+    min-width: auto;
+  }
+}

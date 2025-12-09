@@ -1,0 +1,23 @@
+.ratings-page{
+  padding: 20px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.ratings-title{
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ratings-subtitle{
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px){
+  .ratings-page{ padding: 16px; }
+  .ratings-title{ font-size: 24px; }
+}
