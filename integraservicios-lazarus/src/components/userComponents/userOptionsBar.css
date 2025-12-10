@@ -1,0 +1,58 @@
+.user-options-bar {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #000000;
+  border-radius: 25px;
+  width: 1000px;
+  margin: 20px auto;
+}
+
+.user-option-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #000000;
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-option-btn:hover {
+  background: #232323;
+  border-color: rgba(16, 24, 40, 0.12);
+}
+
+.user-option-btn.active {
+  background: #b5944c;
+  border-color: #b5944c;
+  color: #000000;
+  font-weight: 600;
+}
+
+.user-option-btn svg {
+  color: inherit;
+}
+
+@media (max-width: 480px) {
+  .user-options-bar {
+    gap: 8px;
+  }
+
+  .user-option-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .user-option-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

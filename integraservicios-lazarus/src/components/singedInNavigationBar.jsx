@@ -3,12 +3,12 @@ import iconoUsuario from '../assets/userIcon.png';
 import iconoCerrarSesion from '../assets/logoutIcon.png';
 import './singedInNavigationBar.css'
 
-const SignedInNavigationBar = ({ onSignOut }) => {
+const SignedInNavigationBar = ({ onSignOut, fullName = 'Usuario', role = 'Rol' }) => {
     return (
         <div className='navBarUser'>
             <img src={iconoUsuario} className='iconoPerfil' alt="Perfil"/>
             <div className='seccionInfoUsuario'>
-                <h2>Bienvenido, Usuario Rol</h2>
+                <h2>Bienvenido, {fullName} {role ? `(${role})` : ''}</h2>
             </div>
             <img
                 src={iconoCerrarSesion}

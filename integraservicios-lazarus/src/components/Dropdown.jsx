@@ -51,6 +51,7 @@ const Dropdown = ({
   return (
     <div className="dropdown" ref={dropdownRef}>
       <button
+        type="button"
         className="dropdown-trigger"
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
@@ -79,6 +80,7 @@ const Dropdown = ({
           {options.map((option, idx) => (
             <li key={`${option.value}-${idx}`}>
               <button
+                type="button"
                 className={`dropdown-option ${selected === option.value ? 'active' : ''}`}
                 onClick={() => handleSelect(option.value)}
                 role="option"

@@ -12,13 +12,18 @@ import Dashboard from './pages/Dashboard.jsx'
 import Resources from './pages/Resources.jsx'
 import ReservationsAdmin from './pages/ReservationsAdmin.jsx'
 import Ratings from './pages/Ratings.jsx'
-
+import UserOptionsBar from './components/userComponents/userOptionsBar.jsx'
+import UserCatalog from './pages/user/UserCatalog.jsx'
+import UserReservations from './pages/user/UserReservations.jsx'
 
 
 function App() {
   const [showRegister, setShowRegister] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [userRole, setUserRole] = useState(null)
+  const [userInfo, setUserInfo] = useState(null)
+  const [currentComponent, setCurrentComponent] = useState(null)
 
   const handleRegisterClick = () => {
     setShowRegister(true)
@@ -35,17 +40,34 @@ function App() {
     setShowSignIn(false)
   }
 
-  const handleSignInSuccess = () => {
-    // Called when SignInFormd reports successful sign-in
+  const handleSignInSuccess = (userData) => {
+    // Called when SignInFormd reports successful sign-in with user data
     setIsSignedIn(true)
     setShowSignIn(false)
+    setUserRole(userData?.role || null)
+    setUserInfo(userData || null)
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    // Llamar logout en backend si hay username
+    const username = userInfo?.username
+    if (username) {
+      try {
+        await fetch(`http://localhost:8083/api/auth/logout?username=${encodeURIComponent(username)}`, {
+          method: 'POST'
+        })
+        console.log('Finos con la cerrada de sesion')
+      } catch (err) {
+        console.error('Error en logout:', err)
+      }
+    }
+
     // Return to public view
     setIsSignedIn(false)
     setShowRegister(false)
     setShowSignIn(false)
+    setUserRole(null)
+    setUserInfo(null)
   }
 
   const [adminView, setAdminView] = useState('dashboard')
@@ -57,15 +79,33 @@ function App() {
   return (
     <div>
       {isSignedIn ? (
-        /* Cuando el usuario está autenticado, mostrar solo la barra y las opciones de admin */
+        /* Usuario autenticado */
         <>
-          <SignedInNavigationBar onSignOut={handleSignOut} />
-          <AdminOptionsBar onSelect={handleAdminSelect} active={adminView} />
-          {adminView === 'dashboard' && <Dashboard />}
-          {adminView === 'resources' && <Resources />}
-          {adminView === 'bookings' && <ReservationsAdmin />}
-          {adminView === 'ratings' && <Ratings />}
-          {/* other views (ratings) can be added similarly */}
+          <SignedInNavigationBar
+            onSignOut={handleSignOut}
+            fullName={userInfo?.fullName}
+            role={userInfo?.role}
+          />
+          
+          {userRole === 'ADMIN' ? (
+            /* Vista ADMIN */
+            <>
+              <AdminOptionsBar onSelect={handleAdminSelect} active={adminView} />
+              {adminView === 'dashboard' && <Dashboard />}
+              {adminView === 'resources' && <Resources />}
+              {adminView === 'bookings' && <ReservationsAdmin />}
+              {adminView === 'ratings' && <Ratings />}
+            </>
+          ) : (
+            /* Vista STUDENT */
+            <>
+              <UserOptionsBar 
+                onCatalogClick={() => setCurrentComponent(<UserCatalog />)} 
+                onMyReservationsClick={() => setCurrentComponent(<UserReservations />)} 
+              />
+              {currentComponent}
+            </>
+          )}
         </>
       ) : (
         /* Vista pública: NavigationBar + contenido (SignIn / Register / Home) */
