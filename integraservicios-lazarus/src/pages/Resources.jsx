@@ -26,9 +26,8 @@ const Resources = () => {
     const handleClose = () => setShowNew(false)
 
     const handleCreate = (payload) => {
-        // add id so we can edit/delete later
-        const item = { id: Date.now(), ...payload }
-        setItems(prev => [item, ...prev])
+        // payload viene de la API (ya tiene id)
+        setItems(prev => [payload, ...prev])
         setShowNew(false)
     }
 
@@ -112,7 +111,7 @@ const Resources = () => {
                     onClose={handleClose}
                     onCreate={(payload) => {
                         if (editing) {
-                            handleUpdate({ id: editing.id, ...payload })
+                            handleUpdate(payload)
                         } else {
                             handleCreate(payload)
                         }

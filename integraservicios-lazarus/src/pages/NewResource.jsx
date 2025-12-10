@@ -11,10 +11,15 @@ const NewResource = ({ onClose, onCreate, initialData = null }) => {
 	React.useEffect(() => {
 		if (initialData) {
 			setName(initialData.name || '')
-			setType(initialData.type || 'Salón')
-			setDescription(initialData.description || '')
-			setCapacity(initialData.capacity ? String(initialData.capacity) : '')
-			setAvailable(typeof initialData.available === 'boolean' ? initialData.available : true)
+			// Prefer type name, fallback to stored type string
+			setType(initialData.type?.name || initialData.type || 'Salón')
+			const descAttr = initialData.attributesJson?.descripcion || initialData.description || ''
+			setDescription(descAttr)
+			const capAttr = initialData.attributesJson?.capacidad ?? initialData.capacity
+			setCapacity(capAttr !== undefined && capAttr !== null ? String(capAttr) : '')
+			// active/available mapping
+			const availableFlag = typeof initialData.active === 'boolean' ? initialData.active : initialData.available
+			setAvailable(typeof availableFlag === 'boolean' ? availableFlag : true)
 		} else {
 			setName('')
 			setType('Salón')
@@ -24,10 +29,59 @@ const NewResource = ({ onClose, onCreate, initialData = null }) => {
 		}
 	}, [initialData])
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault()
-		const payload = { name, type, description, capacity: Number(capacity || 0), available }
-		if (onCreate) onCreate(payload)
+
+		// Derive code: first 3 letters of the name (uppercased) + the first number found
+		const prefix = (name || '').trim().slice(0, 3).toUpperCase()
+		const numMatch = (name || '').match(/(\d+)/)
+		const numPart = numMatch ? numMatch[1] : '001'
+		const code = `${prefix}-${numPart}`
+
+		const body = {
+			code,
+			name,
+			attributesJson: {
+				capacidad: Number(capacity || 0),
+				equipoDisponible: null,
+				descripcion: description,
+			},
+			photoUrl: null,
+			active: available,
+			location: {
+				id: 'fc592db8-c831-46ec-b151-ae1e09b77569',
+			},
+			type: {
+				id: '782febf8-3982-452e-9998-47a9e1603ed4',
+			},
+		}
+
+		const isEditing = Boolean(initialData?.id)
+		const url = isEditing
+			? `http://localhost:8081/api/resources/${initialData.id}`
+			: 'http://localhost:8081/api/resources'
+		const method = isEditing ? 'PUT' : 'POST'
+
+		try {
+			const res = await fetch(url, {
+				method,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(body),
+			})
+
+			if (!res.ok) {
+				console.error('Error al guardar recurso')
+				return
+			}
+
+			const data = await res.json()
+			console.log(isEditing ? 'Finos con el PUT de recurso' : 'Finos con el POST de recurso')
+			if (onCreate) onCreate(data)
+		} catch (err) {
+			console.error('Error en la petición:', err)
+		}
 	}
 
 	return (
