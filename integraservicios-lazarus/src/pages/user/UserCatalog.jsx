@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import CatalogResource from '../../components/userComponents/CatalogResource.jsx';
+import ReserveConfirmation from '../../components/userComponents/ReserveConfirmation.jsx';
 
 function UserCatalog() {
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedResource, setSelectedResource] = useState(null);
+
+    // Get userId from sessionStorage each render (ensures latest session info)
+    const sessionUser = (() => {
+        try {
+            const stored = sessionStorage.getItem('userInfo');
+            return stored ? JSON.parse(stored) : null;
+        } catch (err) {
+            console.error('No se pudo leer userInfo de sessionStorage', err);
+            return null;
+        }
+    })();
+    const userId = sessionUser?.id;
 
     useEffect(() => {
         const fetchResources = async () => {
@@ -19,6 +34,14 @@ function UserCatalog() {
                 const data = await response.json();
                 setResources(data);
                 setError(null);
+                
+                // Guardar recursos en sessionStorage
+                try {
+                    sessionStorage.setItem('resources', JSON.stringify(data));
+                    console.log('Recursos guardados en sessionStorage:', data);
+                } catch (storageErr) {
+                    console.error('Error al guardar recursos en sessionStorage:', storageErr);
+                }
             } catch (err) {
                 console.error('Error fetching resources:', err);
                 setError(err.message);
@@ -30,9 +53,21 @@ function UserCatalog() {
         fetchResources();
     }, []);
 
-    const handleReserve = (resourceId, resourceName) => {
-        console.log(`Reservar recurso: ${resourceName} (ID: ${resourceId})`);
-        // Aquí puedes implementar la lógica de reserva
+    const handleReserve = (resource) => {
+        setSelectedResource(resource);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedResource(null);
+    };
+
+    const handleConfirmReserve = () => {
+        // Aquí va la lógica para confirmar la reserva
+        alert(`Reserva confirmada para ${selectedResource?.name}`);
+        setModalOpen(false);
+        setSelectedResource(null);
     };
 
     return (
@@ -56,7 +91,7 @@ function UserCatalog() {
                         isAvailable={resource.available}
                         description={resource.description}
                         capacity={resource.capacity}
-                        onReserve={() => handleReserve(resource.id, resource.name)}
+                        onReserve={() => handleReserve(resource)}
                     />
                 ))}
             </div>
@@ -64,6 +99,18 @@ function UserCatalog() {
             {!loading && !error && resources.length === 0 && (
                 <p>No hay recursos disponibles en este momento.</p>
             )}
+            
+            <ReserveConfirmation
+                open={modalOpen}
+                onClose={handleCloseModal}
+                resourceName={selectedResource?.name || ''}
+                description={selectedResource?.description || ''}
+                capacity={selectedResource?.capacity || 0}
+                resourceId={selectedResource?.id}
+                resourceTypeId={selectedResource?.resourceTypeId}
+                userId={userId}
+                onConfirm={handleConfirmReserve}
+            />
         </div>
     );
 }

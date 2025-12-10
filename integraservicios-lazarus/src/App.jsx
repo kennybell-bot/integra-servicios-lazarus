@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -25,6 +25,21 @@ function App() {
   const [userInfo, setUserInfo] = useState(null)
   const [currentComponent, setCurrentComponent] = useState(null)
 
+  // Hydrate session from sessionStorage on load
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem('userInfo')
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        setUserInfo(parsed)
+        setUserRole(parsed?.role || null)
+        setIsSignedIn(true)
+      }
+    } catch (err) {
+      console.error('Error leyendo sessionStorage userInfo:', err)
+    }
+  }, [])
+
   const handleRegisterClick = () => {
     setShowRegister(true)
     setShowSignIn(false)
@@ -46,6 +61,12 @@ function App() {
     setShowSignIn(false)
     setUserRole(userData?.role || null)
     setUserInfo(userData || null)
+    try {
+      sessionStorage.setItem('userInfo', JSON.stringify(userData || {}))
+    } catch (err) {
+      console.error('No se pudo guardar userInfo en sessionStorage:', err)
+    }
+    console.log('User signed in:', userData)
   }
 
   const handleSignOut = async () => {
@@ -68,6 +89,12 @@ function App() {
     setShowSignIn(false)
     setUserRole(null)
     setUserInfo(null)
+    try {
+      sessionStorage.removeItem('userInfo')
+    } catch (err) {
+      console.error('No se pudo limpiar sessionStorage:', err)
+    }
+    setCurrentComponent(null)
   }
 
   const [adminView, setAdminView] = useState('dashboard')
@@ -100,9 +127,10 @@ function App() {
             /* Vista STUDENT */
             <>
               <UserOptionsBar 
-                onCatalogClick={() => setCurrentComponent(<UserCatalog />)} 
-                onMyReservationsClick={() => setCurrentComponent(<UserReservations />)} 
+                onCatalogClick={() => setCurrentComponent(<UserCatalog userInfo={userInfo} />)} 
+                onMyReservationsClick={() => setCurrentComponent(<UserReservations userInfo={userInfo} />)} 
               />
+
               {currentComponent}
             </>
           )}
